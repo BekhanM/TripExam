@@ -6,7 +6,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import dat.exceptions.ApiException;
 import io.javalin.http.Context;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
@@ -22,10 +21,13 @@ public class Utils {
     public static void main(String[] args) {
         System.out.println(getPropertyValue("DB_NAME", "config.properties"));
     }
-    public static String getPropertyValue(String propName, String resourceName)  {
-        // REMEMBER TO BUILD WITH MAVEN FIRST. Read the property file if not deployed (else read system vars instead)
-        // Read from ressources/config.properties or from pom.xml depending on the ressourceName
+
+    public static String getPropertyValue(String propName, String resourceName) {
         try (InputStream is = Utils.class.getClassLoader().getResourceAsStream(resourceName)) {
+            if (is == null) {
+                throw new ApiException(500, String.format("Resource %s not found", resourceName));
+            }
+
             Properties prop = new Properties();
             prop.load(is);
 
@@ -57,8 +59,7 @@ public class Utils {
         try {
             return objectMapper.writeValueAsString(msgMap);  // Convert the map to JSON
         } catch (Exception e) {
-            return "{\"error\": \"Could not convert  message to JSON\"}";
+            return "{\"error\": \"Could not convert message to JSON\"}";
         }
     }
-
 }
