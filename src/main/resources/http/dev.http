@@ -1,50 +1,80 @@
-### Create author
-POST {{url}}/authors
+### POPULATE DATABASE WITH TRIPS AND GUIDES
+POST {{url}}/trips/populate
+Content-Type: application/json
+Authorization: Bearer {{jwt_token}}
+
+### GET ALL TRIPS
+GET {{url}}/trips
+Content-Type: application/json
+Authorization: Bearer {{jwt_token}}
+
+### GET TRIP BY ID
+GET {{url}}/trips/4
+Content-Type: application/json
+Authorization: Bearer {{jwt_token}}
+
+### CREATE A TRIP
+POST {{url}}/trips
+Content-Type: application/json
+Authorization: Bearer {{jwt_token}}
+
+
+{
+  "name": "Mountain Hike",
+  "starttime": "2024-05-01T09:00:00",
+  "endtime": "2024-05-01T17:00:00",
+  "longitude": -105.2705,
+  "latitude": 40.0150,
+  "price": 250.0,
+  "category": "SNOW"
+}
+
+### UPDATE A TRIP
+PUT {{url}}/trips/3
 Content-Type: application/json
 Authorization: Bearer {{jwt_token}}
 
 {
-    "name": "Rascal Flatts",
-    "description": "Singer"
+  "name": "Updated Mountain Hike",
+  "starttime": "2024-05-01T09:00:00",
+  "endtime": "2024-05-01T18:00:00",
+  "longitude": -105.2705,
+  "latitude": 40.0150,
+  "price": 275.0,
+  "category": "LAKE"
 }
 
-### Get Author by id
-GET {{url}}/authors/5
+### DELETE A TRIP
+DELETE {{url}}/trips/2
 Content-Type: application/json
 Authorization: Bearer {{jwt_token}}
 
-### Get all Authors
-GET {{url}}/authors
+### ADD AN EXISTING GUIDE TO A TRIP
+PUT {{url}}/trips/10/guides/4
 Content-Type: application/json
 Authorization: Bearer {{jwt_token}}
 
-### Get Author by name
-GET {{url}}/authors/name/D
+### FILTER TRIPS BY CATEGORY
+GET {{url}}/trips/category/SNOW
 Content-Type: application/json
 Authorization: Bearer {{jwt_token}}
 
-### Get Author by description
-GET {{url}}/authors/description/Com
+### GET TOTAL PRICE OF TRIPS BY GUIDE
+GET {{url}}/trips/guides/totalprice
 Content-Type: application/json
 Authorization: Bearer {{jwt_token}}
 
-### Update Author by id
-PUT {{url}}/authors/3
+### GET TOTAL PACKING WEIGHT FOR A TRIP
+GET {{url}}/trips/4/packing-weight
 Content-Type: application/json
 Authorization: Bearer {{jwt_token}}
 
-{
-    "name": "David Bekhan",
-    "description": "Athlete"
-}
 
-### Delete Author by id
-DELETE {{url}}/authors/5
-Content-Type: application/json
-Authorization: Bearer {{jwt_token}}
 
-### A simple get request to the test endpoint. No need for login
-GET {{url}}/auth/test/
+
+
+
+
 
 
 ### Create a new user - this one will only get a USER role by default
@@ -98,3 +128,4 @@ GET {{url}}/auth/test/
     client.global.set("jwt_token", null);
     console.log("JWT Token:", client.global.get("jwt_token"));
 %}
+
